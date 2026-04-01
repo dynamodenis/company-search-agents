@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/0e373146-26a7-4391-b973-224ded3182a9
 - **Multi-Source Research**: Gathers data from various sources, including company websites, news articles, financial reports, and industry analyses
 - **AI-Powered Content Filtering**: Uses Tavily's relevance scoring for content curation
 - **Asynchronous Processing**: Efficient polling-based architecture for tracking research progress
-- **Dual Model Architecture**:
+- **Dual Model Architecture** (via OpenRouter):
   - Gemini 2.5 Flash for high-context research synthesis
   - GPT-5.1 for precise report formatting and editing
 - **Modern React Frontend**: Responsive UI with progress tracking and download options
@@ -67,7 +67,7 @@ The platform leverages separate models for optimal performance:
      - Markdown formatting
      - Real-time report streaming
 
-This approach combines Gemini's strength in handling large context windows with GPT-5.1's precision in following specific formatting instructions.
+All LLM calls are routed through [OpenRouter](https://openrouter.ai/), allowing you to use a single API key for all models. This approach combines Gemini's strength in handling large context windows with GPT-5.1's precision in following specific formatting instructions.
 
 ### Content Curation System
 
@@ -143,9 +143,7 @@ The setup script will:
 
 You'll need the following API keys ready:
 - Tavily API Key
-- Google Gemini API Key
-- OpenAI API Key
-- Google Maps API Key
+- OpenRouter API Key
 - MongoDB URI (optional)
 
 ### Manual Setup
@@ -193,26 +191,10 @@ Create a `.env` file in the project's root directory and add your backend API ke
 
 ```env
 TAVILY_API_KEY=your_tavily_key
-GEMINI_API_KEY=your_gemini_key
-OPENAI_API_KEY=your_openai_key
+OPENROUTER_API_KEY=your_openrouter_key
 
 # Optional: Enable MongoDB persistence
 # MONGODB_URI=your_mongodb_connection_string
-```
-
-**For the Frontend:**
-
-Create a `.env` file inside the `ui` directory. You can copy the example file first:
-
-```bash
-cp ui/.env.development.example ui/.env
-```
-
-Then, open `ui/.env` and add your frontend environment variables:
-
-```env
-VITE_API_URL=http://localhost:8000
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 ```
 
 ### Docker Setup
@@ -227,34 +209,14 @@ cd tavily-company-research
 
 2. **Set up Environment Variables**:
 
-The Docker setup uses two separate `.env` files.
-
-**For the Backend:**
-
-Create a `.env` file in the project's root directory with your backend API keys:
+Create a `.env` file in the project's root directory with your API keys:
 
 ```env
 TAVILY_API_KEY=your_tavily_key
-GEMINI_API_KEY=your_gemini_key
-OPENAI_API_KEY=your_openai_key
+OPENROUTER_API_KEY=your_openrouter_key
 
 # Optional: Enable MongoDB persistence
 # MONGODB_URI=your_mongodb_connection_string
-```
-
-**For the Frontend:**
-
-Create a `.env` file inside the `ui` directory. You can copy the example file first:
-
-```bash
-cp ui/.env.development.example ui/.env
-```
-
-Then, open `ui/.env` and add your frontend environment variables:
-
-```env
-VITE_API_URL=http://localhost:8000
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 ```
 
 3. Build and start the containers:
@@ -262,9 +224,8 @@ VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
 docker compose up --build
 ```
 
-This will start both the backend and frontend services:
+This will start the backend service:
 - Backend API will be available at `http://localhost:8000`
-- Frontend will be available at `http://localhost:5174`
 
 To stop the services:
 ```bash
