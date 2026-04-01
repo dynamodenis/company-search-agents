@@ -23,16 +23,17 @@ class Editor:
     """Compiles individual section briefings into a cohesive final report."""
     
     def __init__(self) -> None:
-        openai_key = os.getenv("OPENAI_API_KEY")
-        if not openai_key:
-            raise ValueError("OPENAI_API_KEY environment variable is not set")
-        
-        # Configure LangChain ChatOpenAI
+        openrouter_key = os.getenv("OPENROUTER_API_KEY")
+        if not openrouter_key:
+            raise ValueError("OPENROUTER_API_KEY environment variable is not set")
+
+        # Configure LangChain ChatOpenAI via OpenRouter
         self.llm = ChatOpenAI(
-            model="gpt-4o",
+            model="openai/gpt-4o",
             temperature=0,
             streaming=True,
-            api_key=openai_key
+            api_key=openrouter_key,
+            base_url="https://openrouter.ai/api/v1"
         )
         
         # Initialize context dictionary

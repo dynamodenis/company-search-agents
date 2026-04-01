@@ -3,7 +3,7 @@ import logging
 import os
 from typing import Any, Dict, List, Union
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
@@ -24,15 +24,16 @@ class Briefing:
     
     def __init__(self) -> None:
         self.max_doc_length = 8000  # Maximum document content length
-        gemini_key = os.getenv("GEMINI_API_KEY")
-        if not gemini_key:
-            raise ValueError("GEMINI_API_KEY environment variable is not set")
-        
-        # Configure LangChain ChatGoogleGenerativeAI
-        self.llm = ChatGoogleGenerativeAI(
-            model="gemini-2.5-flash",
+        openrouter_key = os.getenv("OPENROUTER_API_KEY")
+        if not openrouter_key:
+            raise ValueError("OPENROUTER_API_KEY environment variable is not set")
+
+        # Configure LangChain ChatOpenAI via OpenRouter
+        self.llm = ChatOpenAI(
+            model="google/gemini-2.5-flash",
             temperature=0,
-            google_api_key=gemini_key,
+            api_key=openrouter_key,
+            base_url="https://openrouter.ai/api/v1",
             max_retries=0
         )
 

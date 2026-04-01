@@ -18,17 +18,18 @@ logger = logging.getLogger(__name__)
 class BaseResearcher:
     def __init__(self):
         tavily_key = os.getenv("TAVILY_API_KEY")
-        openai_key = os.getenv("OPENAI_API_KEY")
-        
-        if not tavily_key or not openai_key:
+        openrouter_key = os.getenv("OPENROUTER_API_KEY")
+
+        if not tavily_key or not openrouter_key:
             raise ValueError("Missing API keys")
-            
+
         self.tavily_client = AsyncTavilyClient(api_key=tavily_key)
         self.llm = ChatOpenAI(
-            model="gpt-5.1",
+            model="openai/gpt-5.1",
             temperature=0,
             streaming=True,
-            api_key=openai_key
+            api_key=openrouter_key,
+            base_url="https://openrouter.ai/api/v1"
         )
         self.analyst_type = "base_researcher"
 

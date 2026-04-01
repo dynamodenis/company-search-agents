@@ -1,12 +1,4 @@
-# Stage 1: Build Frontend
-FROM node:20-slim AS frontend-builder
-WORKDIR /app/ui
-COPY ui/package*.json ./
-RUN npm install
-COPY ui/ ./
-RUN npm run build
-
-# Stage 2: Build Backend
+# Stage 1: Build Backend
 FROM python:3.11-slim AS backend-builder
 WORKDIR /app
 COPY requirements.txt .
@@ -25,9 +17,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=backend-builder /usr/local/lib/python3.11/site-packages/ /usr/local/lib/python3.11/site-packages/
 COPY backend/ ./backend/
 COPY application.py .
-
-# Copy frontend build
-COPY --from=frontend-builder /app/ui/dist/ ./ui/dist/
 
 # Create reports directory
 RUN mkdir -p reports
