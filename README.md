@@ -197,6 +197,21 @@ OPENROUTER_API_KEY=your_openrouter_key
 # MONGODB_URI=your_mongodb_connection_string
 ```
 
+**For the Frontend:**
+
+Create a `.env` file inside the `ui` directory. You can copy the example file first:
+
+```bash
+cp ui/.env.development.example ui/.env
+```
+
+Then, open `ui/.env` and add your frontend environment variables:
+
+```env
+VITE_API_URL=http://localhost:8000
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+```
+
 ### Docker Setup
 
 The application can be run using Docker and Docker Compose:
@@ -224,8 +239,9 @@ OPENROUTER_API_KEY=your_openrouter_key
 docker compose up --build
 ```
 
-This will start the backend service:
+This will start both the backend and frontend services:
 - Backend API will be available at `http://localhost:8000`
+- Frontend will be available at `http://localhost:5174`
 
 To stop the services:
 ```bash
